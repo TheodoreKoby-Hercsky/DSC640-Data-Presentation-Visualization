@@ -1,0 +1,102 @@
+---
+title: "Untitled"
+author: "Theodore Koby-Hercsky"
+date: "6/22/2022"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r package, include=FALSE}
+# Markdown Basics
+#load packages needed
+pkgs <- c("moments", "ggplot2", "dplyr", "tidyr", "tidyverse", "effects", "statmod", "Rcmdr")
+install.packages(pkgs, repos = "http://cran.us.r-project.org")
+install.packages("lmtest", repos = "http://cran.us.r-project.org")
+install.packages("weatherData",repos = "http://cran.us.r-project.org")
+options(repos = c(CRAN = "http://cran.rstudio.com"))
+library(rmarkdown)
+library(readr)
+library(ggplot2)
+library(readxl)
+library(psych)
+library(statmod)
+library(effects)
+library(plotly)
+library(zoo)
+# installed pander and created a pandoc grid table
+install.packages("pander")
+library(pander)
+#chunk options
+knitr::opts_chunk$set(
+	error = TRUE,
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE,
+	out.width = "90%",
+	size = "small",
+	tidy = FALSE)
+```
+
+
+```{r directory, include=FALSE}
+## Working directory set to Documents
+setwd("C:/Users/Robyn/OneDrive/Documents")
+```
+
+
+```{r Data, include=TRUE}
+
+## I am importing readr from the library so I can use the read_csv function to create my data frame.
+library(readxl)
+library(readr)
+
+
+## unemployement_rate per year
+unemployement_rate <- read_excel("unemployement-rate-1948-2010.xlsx")
+View(unemployement_rate)
+head(unemployement_rate)
+
+## us-postage per year
+us_postage <- read_excel("us-postage.xlsx")
+View(us_postage)
+
+## world-population by year
+world_population <- read_excel("world-population.xlsx")
+View(world_population)
+
+## Financials_Airline_Full Data_data by year
+Financials_Airline <- read_excel("Financials_Airline_Full Data_data.xlsx")
+View(Financials_Airline)
+```
+
+
+```{r Tree Map, include=TRUE}
+library(treemapify)
+library(ggplot2)
+
+ggplot(unemployement_rate, aes(area = Value, fill = Year)) +
+  geom_treemap()
+```
+
+```{r Area Chart, include=TRUE}
+# area chart
+library(dplyr)
+ggplot(us_postage, aes(x=Year, y=Price)) + 
+    geom_area()
+```
+
+```{r Stacked Area Chart, include=TRUE}
+# stacked area chart
+library(dplyr)
+ggplot(unemployement_rate, aes(x=Year, y=Value, fill=Period)) + 
+    geom_area()
+```
+
+```{r Step Chart, include=TRUE}
+# I will create a stepped line chart using qplot
+qplot(Year, Price, data = us_postage, geom = "step")
+```
+
+

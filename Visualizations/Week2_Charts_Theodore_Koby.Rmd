@@ -1,0 +1,56 @@
+---
+title: "Untitled"
+author: "Theodore Koby-Hercsky"
+date: "6/22/2022"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+
+
+```{r directory, include=FALSE}
+## Working directory set to DSC640 file
+setwd("~/Documents/DSC640-Data-Pres")
+```
+
+
+```{r Data, include=TRUE}
+
+## I am importing readr from the library so I can use the read_csv function to create my data frame.
+library(readxl)
+library(readr)
+
+## world_population per year
+world_population <- read_excel("world-population.xls")
+View(world_population)
+head(world_population)
+
+## Financials_Airline_Full_Data_data per year
+Financials_Airline_Full_Data_data <- read_excel("Financials_Airline_Full_Data_data.xls")
+View(Financials_Airline_Full_Data_data)
+
+## us_postage by year
+us_postage <- read_excel("us-postage.xls")
+View(us_postage)
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
