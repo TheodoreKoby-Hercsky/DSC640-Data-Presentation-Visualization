@@ -1,0 +1,108 @@
+---
+title: "Untitled"
+author: "Theodore Koby-Hercsky"
+date: "6/7/2022"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r package, include=FALSE}
+# Markdown Basics
+#load packages needed
+pkgs <- c("moments", "ggplot2", "dplyr", "tidyr", "tidyverse", "effects", "statmod", "Rcmdr")
+install.packages(pkgs, repos = "http://cran.us.r-project.org")
+install.packages("lmtest", repos = "http://cran.us.r-project.org")
+install.packages("weatherData",repos = "http://cran.us.r-project.org")
+options(repos = c(CRAN = "http://cran.rstudio.com"))
+library(rmarkdown)
+library(readr)
+library(ggplot2)
+library(readxl)
+library(pastecs)
+library(psych)
+library(statmod)
+library(effects)
+# installed pander and created a pandoc grid table
+install.packages("pander")
+library(pander)
+#chunk options
+knitr::opts_chunk$set(
+	error = TRUE,
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE,
+	out.width = "90%",
+	size = "small",
+	tidy = FALSE)
+```
+
+
+```{r directory, include=FALSE}
+## Working directory set to DSC640 file
+setwd("~/Documents/DSC640-Data-Pres")
+```
+
+```{r Data, include=TRUE}
+
+## I am importing readr from the library so I can use the read_csv function to create my obama approval ratings data frame.
+library(readxl)
+library(readr)
+
+## obama approval ratings per issue
+obama_approval_ratings <- read_excel("obama-approval-ratings.xls")
+View(obama_approval_ratings)
+head(obama_approval_ratings)
+
+## hotdog_contest_winners per year
+hotdog_contest_winners <- read_excel("hotdog-contest-winners.xls")
+View(hotdog_contest_winners)
+
+## hotdog_places by year
+hotdog_places <- read_excel("hotdog-places.xls")
+View(hotdog_places)
+```
+
+
+```{r Bar Chart, include=TRUE}
+# Barplot
+library(ggplot2)
+ggplot(obama_approval_ratings, aes(x=Issue, y=Approve)) + 
+  geom_bar(stat = "identity")
+```
+
+```{r Stacked Bar Chart, include=TRUE}
+ggplot(hotdog_contest_winners,                  
+       aes(x = Country,
+           y = Dogs_eaten,
+           fill = Winner)) +
+  geom_bar(stat = "identity")
+```
+
+```{r Pie Chart, include=TRUE}
+pie(hotdog_contest_winners$Dogs_eaten, labels = 
+      hotdog_contest_winners$Country, 
+    main="Pie Chart of Countries")
+```
+```{r Donut Chart, include=TRUE}
+library(ggplot2)
+library(dplyr)
+# Donut Chart
+hsize <- 10
+hotdog_contest_winners <- hotdog_contest_winners %>% 
+  mutate(x = hsize)
+ggplot(hotdog_contest_winners, aes(x = hsize, y = Dogs_eaten, 
+                                   fill = Country)) + geom_col() + coord_polar(theta = "y") +
+  xlim(c(0.2, hsize + 0.5))
+```
+
+
+```{r Line Chart, include=TRUE}
+## Line Plot hot dogs per year
+plot(hotdog_contest_winners$Year, 
+     hotdog_contest_winners$Dogs_eaten, 
+     type = "l",
+     col = "lightblue", lwd = 5) 
+```
+
